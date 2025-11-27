@@ -20,9 +20,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Apps do projeto
-    'api_aluno',
+    'api_usuarios',
     'api_projetos',
-    'api_admin',
 
     # Terceiros
     'rest_framework',
@@ -31,7 +30,7 @@ INSTALLED_APPS = [
 
 # ---------------- MIDDLEWARE ----------------
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
@@ -49,12 +48,12 @@ ROOT_URLCONF = 'devlab.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(BASE_DIR / 'templates')],  # pasta templates do projeto
+        'DIRS': [BASE_DIR / 'templates'],  # <-- Aqui você coloca a pasta dos templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.template.context_processors.request',  # necessário para request no template
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -85,12 +84,13 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
 
 # ---------------- STATIC ----------------
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # arquivos de desenvolvimento
-STATIC_ROOT = BASE_DIR / 'staticfiles'   # arquivos coletados
+STATICFILES_DIRS = [BASE_DIR / 'static']  # <-- onde estão seus arquivos CSS, JS
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # ---------------- MEDIA ----------------
 MEDIA_URL = '/media/'
@@ -100,6 +100,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ]
 }
 
@@ -108,8 +112,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # ---------------- AUTENTICAÇÃO ----------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'api_aluno.Usuario'  # usuário customizado
+AUTH_USER_MODEL = 'api_usuarios.Usuario'
 
 # ---------------- LOGIN ----------------
-LOGIN_REDIRECT_URL = '/'           
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'           # redireciona para a home depois de login
+LOGOUT_REDIRECT_URL = '/accounts/login/'  # volta para login depois de logout
