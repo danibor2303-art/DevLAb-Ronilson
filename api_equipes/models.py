@@ -1,5 +1,7 @@
 from  django.db import models
-from .models import usuario, projeto
+from api_usuarios.models import Usuario
+from api_projetos.models import Projeto
+
 
 # Create your models here.
 class Equipe(models.Model):
